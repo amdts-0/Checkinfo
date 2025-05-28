@@ -58,8 +58,11 @@ def token():
     print(token_list)
     random_token = random.choice(token_list)
     return random_token
-@app.route('/<uid>', methods=['GET'])
-def main(uid):
+@app.route('/player', methods=['GET'])
+def main():
+    uid = request.args.get('uid')
+    if not uid or not uid.isdigit():
+        return jsonify({"error": "Missing or invalid UID"}), 400
     saturn_ = int(uid)
     garena = 1
     protobuf_data = create_protobuf(saturn_, garena)
@@ -123,7 +126,7 @@ def main(uid):
                 'lastlogin': admin.lastlogin,
                 'cspoint': admin.cspoint
             })
-    result['Owners'] = ['Tanhung11231']
+    result['Owners'] = ['DinhHoang']
     return jsonify(result)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5002)
